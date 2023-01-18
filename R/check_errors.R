@@ -16,6 +16,7 @@ check_errors <- function(pivoted_phenotype_data, data_to_collect) {
                                                                              "pheno" = "trait")) %>% 
     mutate(data                 = map2(data, reps_to_measure, filter_to_expected_reps), 
            missing_pct          = map_dbl(data, function(x) sum(is.na(x$value))/nrow(x)), 
+           missing_count        = map_dbl(data, function(x) sum(is.na(x$value))),
            missing_observations = map(data, function(x) dplyr::filter(x, is.na(value))))
   
   return(expected_reps)

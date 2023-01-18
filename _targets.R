@@ -49,7 +49,9 @@ tar_plan(
                dplyr::filter(!is.na(test))),
   
   tar_target(cleaned_nir_files,
-             clean_nir_files(files = nir_files, nir_masterfile = yield_nir_masterfile)),
+             clean_nir_files(files = nir_files, nir_masterfile = yield_nir_masterfile) %>% 
+               mutate(oil_13_pct = oil_dry_basis*0.87, 
+                      protein_13_pct = protein_dry_basis*0.87)),
   
   tar_target(cleaned_test_weight,
              clean_test_weight(test_weight_files) %>% 
