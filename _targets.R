@@ -79,6 +79,12 @@ tar_plan(
   tar_target(errors_checked, 
              check_errors(pivoted_phenotype_data, data_to_collect)),
   
+  # A missing data report
+  tar_target(missing_report, 
+             make_missing_report(errors_checked, outdir = here("exports", "missing_data_report.xlsx")), 
+             format = "file"), 
+  
+  
   # Fit models and extract various summary components from the models
   tar_target(model_data, 
              fit_models(errors_checked))

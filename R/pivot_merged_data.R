@@ -15,6 +15,8 @@ pivot_merged_data <- function(merged_data) {
                   "sdwt", 
                   "oil_dry_basis", 
                   "protein_dry_basis", 
+                  "oil_13_pct", 
+                  "protein_13_pct",
                   "twt_weight", 
                   "twt_kg_hl", 
                   "twt_13_pct")

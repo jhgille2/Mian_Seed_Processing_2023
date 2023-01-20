@@ -15,9 +15,9 @@ clean_data_to_collect <- function(cleaned_lead_sheets) {
   just_po <- data_to_collect %>% 
     dplyr::filter(trait == "protein/oil")
   
-  new_po <- tibble(trait           = rep(c("protein_dry_basis", "oil_dry_basis"), nrow(just_po)), 
-                   reps_to_measure = rep(just_po$reps_to_measure, each = 2), 
-                   test_name       = rep(just_po$test_name, each = 2))
+  new_po <- tibble(trait           = rep(c("protein_dry_basis", "oil_dry_basis", "protein_13_pct", "oil_13_pct"), nrow(just_po)), 
+                   reps_to_measure = rep(just_po$reps_to_measure, each = 4), 
+                   test_name       = rep(just_po$test_name, each = 4))
   
   no_po <- data_to_collect %>% 
     dplyr::filter(trait != "protein/oil")
