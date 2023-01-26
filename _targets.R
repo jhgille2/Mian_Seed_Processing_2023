@@ -50,12 +50,15 @@ tar_plan(
   
   tar_target(cleaned_nir_files,
              clean_nir_files(files = nir_files, nir_masterfile = yield_nir_masterfile) %>% 
+               group_by(nir_no) %>% 
+               top_n(1, date_time_of_analysis) %>%
                mutate(oil_13_pct = oil_dry_basis*0.87, 
                       protein_13_pct = protein_dry_basis*0.87)),
   
   tar_target(cleaned_test_weight,
              clean_test_weight(test_weight_files) %>% 
-               convert_from_table("test", twt_name_conversion)),
+               convert_from_table("test", twt_name_conversion) %>%
+               dplyr::filter(!(test == "LU 5E" & loc == "CAS" & plot == 83 & twt_moisture == 7.5))),
   
   # Modify the "data to collect" part of the leadsheet table so that it can be joined with 
   # the pivoted phenotype data later for error checking
@@ -84,6 +87,16 @@ tar_plan(
              make_missing_report(errors_checked, outdir = here("exports", "missing_data_report.xlsx")), 
              format = "file"), 
   
+  ## Section: Prep for SAS
+  ##################################################
+  tar_target(sas_prepped, 
+             clean_for_sas(pivoted_phenotype_data)),
+  
+  
+  ## Section: Data export
+  ##################################################
+  tar_target(sas_export, 
+             export_sas_data(sas_prepped, outdir = here("exports", "sas_ready"))),
   
   # Fit models and extract various summary components from the models
   tar_target(model_data, 

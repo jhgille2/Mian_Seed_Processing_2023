@@ -9,7 +9,7 @@ check_errors <- function(pivoted_phenotype_data, data_to_collect) {
 
   # A function to filter the data column based on how many reps are expected
   filter_to_expected_reps <- function(data, reps_to_measure){
-    filter(data, as.numeric(rep) <= reps_to_measure)
+    dplyr::filter(data, as.numeric(rep) <= reps_to_measure)
   }
   
   expected_reps <- left_join(pivoted_phenotype_data, data_to_collect, by = c("test" = "test_name", 

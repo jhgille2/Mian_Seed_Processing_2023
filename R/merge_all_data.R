@@ -25,7 +25,8 @@ merge_all_data <- function(yield = cleaned_yield_files, nir =
 
   # Join all the data using shared ID columns
   merged_data <- left_join(yield, nir, by = c("test", "loc", "code", "plot", "rep", "year", "genotype")) %>% 
-    left_join(., twt, by = c("test", "plot", "loc", "year"))
+    left_join(., twt, by = c("test", "plot", "loc", "year")) %>% 
+    distinct()
   
   return(merged_data)
 
