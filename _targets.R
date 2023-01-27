@@ -58,7 +58,7 @@ tar_plan(
   tar_target(cleaned_test_weight,
              clean_test_weight(test_weight_files) %>% 
                convert_from_table("test", twt_name_conversion) %>%
-               dplyr::filter(!(test == "LU 5E" & loc == "CAS" & plot == 83 & twt_moisture == 7.5))),
+              remove_duplicated_test_weight()),
   
   # Modify the "data to collect" part of the leadsheet table so that it can be joined with 
   # the pivoted phenotype data later for error checking
@@ -72,7 +72,8 @@ tar_plan(
   tar_target(merged_data, 
              merge_all_data(yield = cleaned_yield_files,
                             nir = cleaned_nir_files,
-                            twt = cleaned_test_weight)),
+                            twt = cleaned_test_weight) %>% 
+               mutate(test = str_replace(test,  "LU 5L-2", "LU 5L"))),
   
   # Pivot into a long, nested format
   tar_target(pivoted_phenotype_data, 

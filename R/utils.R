@@ -21,3 +21,15 @@ convert_from_table <- function(data, var, conversiontable){
   
   return(data)
 }
+
+# Function to handle the particular duplicated test weight values for this year
+remove_duplicated_test_weight <- function(cleaned_test_weight){
+  
+  cleaned_test_weight %>% 
+    dplyr::filter(!(test == "LU 5E" & loc == "CAS" & plot == 83 & twt_moisture == 7.5)) %>% 
+    group_by(test, loc, plot) %>% 
+    sample_n(1) %>% 
+    ungroup() %>% 
+    mutate(test = ifelse(test == "LU 5L" & loc == "PLY", "LU 5L-2", test)) 
+  
+}
